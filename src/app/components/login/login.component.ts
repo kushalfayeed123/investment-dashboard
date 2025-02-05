@@ -17,6 +17,7 @@ export class LoginComponent {
   ) {}
 
   login() {
+    this.investmentService.showSpinner();
     if (this.email.trim() && this.password.trim()) {
       const credentials = {
         email: this.email,
@@ -28,17 +29,22 @@ export class LoginComponent {
           // Store the UID and authentication token in localStorage
           localStorage.setItem("uid", res.uid);
           localStorage.setItem("idToken", res.idToken); // Store the idToken as well
-          if (res.role == "Admin") {
+          localStorage.setItem("role", res.role);
+          this.investmentService.hideSpinner();
+
+          if (res.role == "admin") {
             this.router.navigate(["/admin"]);
           } else {
             this.router.navigate(["/dashboard"]);
           }
         },
         error: (err) => {
+          this.investmentService.hideSpinner();
           this.error = err.error.error || "Login failed";
         },
       });
     } else {
+      this.investmentService.hideSpinner();
       this.error = "Please enter both email and password.";
     }
   }

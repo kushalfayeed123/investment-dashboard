@@ -13,19 +13,30 @@ import { AdminDashboardComponent } from "./components/admin-dashboard/admin-dash
 import { DepositComponent } from "./components/deposit/deposit.component";
 import { WithdrawComponent } from "./components/withdraw/withdraw.component";
 import { InvestmentService } from "./investment.service";
+import { CommonModule } from "@angular/common";
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
     LoginComponent,
     RegisterComponent,
     UserDashboardComponent,
     AdminDashboardComponent,
     DepositComponent,
     WithdrawComponent,
+    NavbarComponent,
+    SpinnerComponent,
+    UserDetailsComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
+    CommonModule,
+  ],
   providers: [InvestmentService],
   bootstrap: [AppComponent],
 })

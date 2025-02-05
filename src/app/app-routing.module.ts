@@ -6,6 +6,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { UserDashboardComponent } from "./components/user-dashboard/user-dashboard.component";
 import { WithdrawComponent } from "./components/withdraw/withdraw.component";
+import { UserDetailsComponent } from "./components/user-details/user-details.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "deposit", component: DepositComponent },
   { path: "withdraw", component: WithdrawComponent },
   { path: "admin", component: AdminDashboardComponent },
+  { path: "user-details/:uid", component: UserDetailsComponent },
 ];
 
 @NgModule({

@@ -23,6 +23,7 @@ export class WithdrawComponent {
   }
 
   submitWithdraw() {
+    this.investmentService.showSpinner();
     const uid = localStorage.getItem("uid");
     if (!uid) {
       this.error = "User not logged in";
@@ -37,8 +38,12 @@ export class WithdrawComponent {
       next: (res) => {
         this.message = res.message;
         this.error = "";
+        this.investmentService.hideSpinner();
       },
-      error: (err) => (this.error = err.error.error || "Withdrawal failed"),
+      error: (err) => {
+        this.error = err.error.error || "Withdrawal failed";
+        this.investmentService.hideSpinner();
+      },
     });
   }
 }

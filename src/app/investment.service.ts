@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 const API_BASE = "http://localhost:3000"; // Adjust as needed
 
@@ -9,6 +9,16 @@ const API_BASE = "http://localhost:3000"; // Adjust as needed
 })
 export class InvestmentService {
   constructor(private http: HttpClient) {}
+
+  public isLoading = new BehaviorSubject<boolean>(false);
+
+  showSpinner(): void {
+    this.isLoading.next(true);
+  }
+
+  hideSpinner(): void {
+    this.isLoading.next(false);
+  }
 
   register(user: any): Observable<any> {
     return this.http.post(`${API_BASE}/register`, user);
@@ -26,11 +36,28 @@ export class InvestmentService {
     return new HttpHeaders();
   }
 
-  // Modified getDashboard to not require the uid
   getDashboard(): Observable<any> {
     return this.http.get(`${API_BASE}/dashboard`, {
       headers: this.getAuthHeaders(),
     });
+  }
+
+  // Fetch user details by UID
+  getUserDetails(uid: string): Observable<any> {
+    return this.http.get(`${API_BASE}/admin/user/${uid}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Update user balances
+  updateUserBalances(updateData: any): Observable<any> {
+    return this.http.put(
+      `${API_BASE}/users/${updateData.uid}/balances`,
+      updateData.balances,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   getCurrencies(): Observable<any> {
