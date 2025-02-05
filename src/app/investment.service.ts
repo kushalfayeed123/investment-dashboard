@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
 
-const API_BASE = "http://localhost:3000"; // Adjust as needed
+const API_BASE = "https://investment-app-backend.vercel.app"; // Adjust as needed
 
 @Injectable({
   providedIn: "root",
@@ -84,9 +84,10 @@ export class InvestmentService {
     });
   }
 
+  // Updated approveDeposit endpoint to match the backend route.
   approveDeposit(depositApproval: any): Observable<any> {
     return this.http.post(
-      `${API_BASE}/admin/deposit-approval`,
+      `${API_BASE}/admin/approve-deposit`,
       depositApproval,
       {
         headers: this.getAuthHeaders(),

@@ -23,11 +23,14 @@ export class RegisterComponent {
   ) {}
 
   register() {
+    this.investmentService.showSpinner();
     this.investmentService.register(this.user).subscribe({
       next: (res: any) => {
+        this.investmentService.hideSpinner();
         this.router.navigate(["/login"]);
       },
       error: (err) => {
+        this.investmentService.hideSpinner();
         this.error = err.error.error || "Registration failed";
       },
     });
