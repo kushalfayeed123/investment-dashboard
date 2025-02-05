@@ -1,0 +1,101 @@
+<div class="min-h-screen p-6" *ngIf="userData">
+  <div class="rounded-lg p-6">
+    <!-- User Info -->
+    <div class="mb-6">
+      <p class="text-2xl font-semibold text-gray-800 mb-2">
+        Welcome, {{ userData.name }}
+      </p>
+      <p class="text-sm text-gray-600">
+        <span class="font-semibold">Email:</span> {{ userData.email }}
+      </p>
+    </div>
+
+    <!-- Balances Section -->
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">Balances</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        *ngFor="let balance of userData.balances | keyvalue; let i = index"
+        [ngClass]="getCardClass(i)"
+        class="shadow-lg rounded-lg p-4"
+      >
+        <h4 class="text-lg font-medium text-gray-700 mb-2 uppercase">
+          {{ balance.key }}
+        </h4>
+        <p class="text-xl font-semibold text-gray-800">{{ balance.value }}</p>
+      </div>
+    </div>
+
+    <!-- Deposit and Withdraw Buttons -->
+    <div class="flex justify-start mt-6 gap-2">
+      <button
+        (click)="navigateToDeposit()"
+        class="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300"
+      >
+        Deposit
+      </button>
+      <button
+        (click)="navigateToWithdraw()"
+        class="bg-red-500 text-white py-2 px-4 rounded-lg shadow hover:bg-red-600 transition duration-300"
+      >
+        Withdraw
+      </button>
+    </div>
+
+    <!-- Transactions Section -->
+    <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-4">
+      Transaction History
+    </h3>
+    <div *ngIf="transactions && transactions.length > 0" class="space-y-4">
+      <div
+        *ngFor="let transaction of transactions"
+        class="bg-white shadow-lg rounded-lg p-4"
+      >
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="font-semibold text-gray-700">{{ transaction.type }}</h4>
+          <span class="text-sm text-gray-500">{{
+            transaction.createdAt | date : "medium"
+          }}</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <p>
+            <span class="font-semibold text-gray-700">Amount:</span>
+            {{ transaction.amount }}
+          </p>
+          <p>
+            <span class="font-semibold text-gray-700">Currency:</span>
+            {{ transaction.currency }}
+          </p>
+        </div>
+        <div class="flex justify-between mt-2">
+          <p>
+            <span class="font-semibold text-gray-700">Status: </span>
+            <span
+              [ngClass]="{
+                'text-green-500': transaction.status === 'approved',
+                'text-yellow-500': transaction.status === 'pending',
+                'text-red-500': transaction.status === 'rejected'
+              }"
+              >{{ transaction.status }}</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Transactions Available -->
+    <div
+      *ngIf="!transactions || transactions.length === 0"
+      class="bg-white shadow-lg rounded-lg p-4"
+    >
+      <p class="text-gray-500">No transactions found.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Error Message -->
+<div
+  *ngIf="error"
+  class="max-w-md mx-auto bg-red-100 text-red-700 p-4 rounded-lg mt-6"
+>
+  {{ error }}
+</div>

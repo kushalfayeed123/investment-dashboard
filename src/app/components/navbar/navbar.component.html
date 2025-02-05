@@ -1,0 +1,62 @@
+<nav class="bg-white shadow mb-4">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <div class="flex-shrink-0 text-xl font-bold">Investment App</div>
+      <div class="block md:hidden">
+        <button (click)="toggleMenu()" class="text-gray-700 focus:outline-none">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              *ngIf="!isOpen"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+            <path
+              *ngIf="isOpen"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <div
+        [ngClass]="{ block: isOpen, hidden: !isOpen }"
+        class="w-full md:block md:w-auto"
+      >
+        <ul class="flex flex-col md:flex-row md:space-x-4">
+          <li>
+            <a
+              routerLink="/dashboard"
+              class="block py-2 text-gray-700 hover:text-blue-600"
+              >Dashboard</a
+            >
+          </li>
+
+          <!-- <li>
+            <a
+              routerLink="/admin"
+              class="block py-2 text-gray-700 hover:text-blue-600"
+              >Admin</a
+            >
+          </li> -->
+          <li>
+            <button
+              (click)="logout()"
+              class="block py-2 text-red-600 hover:text-red-800"
+            >
+              Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,49 @@
+<div class="max-w-4xl mx-auto bg-white shadow rounded p-6">
+  <h2 class="text-2xl font-bold mb-4">Admin Dashboard</h2>
+  <div *ngIf="error" class="bg-red-100 text-red-700 p-2 rounded mb-4">
+    {{ error }}
+  </div>
+  <div *ngIf="message" class="bg-green-100 text-green-700 p-2 rounded mb-4">
+    {{ message }}
+  </div>
+  <h3 class="text-xl font-semibold mb-2">All Users</h3>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            UID
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Name
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Email
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Role
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr *ngFor="let user of users">
+          <td class="px-4 py-2 text-sm text-gray-900">{{ user.uid }}</td>
+          <td class="px-4 py-2 text-sm text-gray-900">{{ user.name }}</td>
+          <td class="px-4 py-2 text-sm text-gray-900">{{ user.email }}</td>
+          <td class="px-4 py-2 text-sm text-gray-900">{{ user.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Optionally, include deposit approval UI here -->
+  <!--
+    <h3 class="text-xl font-semibold mt-6 mb-2">Approve Deposits</h3>
+    <div *ngFor="let deposit of pendingDeposits" class="mb-4">
+      <p>Transaction ID: {{ deposit.id }} - Amount: {{ deposit.amount }} {{ deposit.currency }}</p>
+      <div class="flex space-x-2">
+        <button (click)="approveDeposit(deposit.id, true)" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Approve</button>
+        <button (click)="approveDeposit(deposit.id, false)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Deny</button>
+      </div>
+    </div>
+    -->
+</div>
