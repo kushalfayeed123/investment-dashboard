@@ -72,6 +72,7 @@ export class InvestmentService {
   }
 
   deposit(depositData: any): Observable<any> {
+    console.log(depositData);
     return this.http.post(`${API_BASE}/deposit`, depositData, {
       headers: this.getAuthHeaders(),
     });

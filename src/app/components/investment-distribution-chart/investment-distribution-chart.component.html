@@ -1,9 +1,12 @@
-<ngx-charts-pie-chart
-  [view]="[400, 300]"
-  [results]="chartData"
-  [scheme]="colorScheme"
-  [gradient]="false"
-  [legend]="true"
-  [labels]="true"
->
-</ngx-charts-pie-chart>
+<div id="investmentDistributionChart">
+  <apx-chart
+    [series]="chartOptions.series!"
+    [chart]="chartOptions.chart!"
+    [labels]="chartOptions.labels!"
+    [legend]="chartOptions.legend!"
+    [colors]="chartOptions.colors!"
+    [responsive]="chartOptions.responsive!"
+    [title]="chartOptions.title!"
+  >
+  </apx-chart>
+</div>

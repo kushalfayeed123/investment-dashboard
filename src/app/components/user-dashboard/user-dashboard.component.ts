@@ -66,6 +66,7 @@ export class UserDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.investmentService.showSpinner;
     const uid = localStorage.getItem("uid");
     if (uid) {
       this.investmentService.getDashboard().subscribe({
@@ -93,6 +94,7 @@ export class UserDashboardComponent implements OnInit {
       //   { name: "IBM", price: 140 },
       // ];
     }
+    this.investmentService.hideSpinner;
   }
 
   fetchTransactions(userId: string): void {

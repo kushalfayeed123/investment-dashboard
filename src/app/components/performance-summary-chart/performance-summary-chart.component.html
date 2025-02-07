@@ -1,14 +1,13 @@
-<ngx-charts-bar-vertical
-  [view]="[300, 300]"
-  [results]="chartData"
-  [scheme]="colorScheme"
-  [gradient]="false"
-  [xAxis]="true"
-  [yAxis]="true"
-  [legend]="false"
-  [showXAxisLabel]="true"
-  xAxisLabel="Metric"
-  [showYAxisLabel]="true"
-  yAxisLabel="Value (%)"
->
-</ngx-charts-bar-vertical>
+<div *ngIf="chartOptions">
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [dataLabels]="chartOptions.dataLabels"
+    [stroke]="chartOptions.stroke"
+    [colors]="chartOptions.colors"
+    [responsive]="chartOptions.responsive"
+    [title]="chartOptions.title"
+  >
+  </apx-chart>
+</div>

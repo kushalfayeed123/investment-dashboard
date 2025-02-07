@@ -19,10 +19,11 @@ import { UserDetailsComponent } from "./components/user-details/user-details.com
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { CryptoChartComponent } from "./components/crypto-chart/crypto-chart.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { TransactionsComponent } from './components/transactions/transactions.component';
-import { LiveNewsComponent } from './components/live-news/live-news.component';
-import { InvestmentDistributionChartComponent } from './components/investment-distribution-chart/investment-distribution-chart.component';
-import { PerformanceSummaryChartComponent } from './components/performance-summary-chart/performance-summary-chart.component';
+import { TransactionsComponent } from "./components/transactions/transactions.component";
+import { LiveNewsComponent } from "./components/live-news/live-news.component";
+import { InvestmentDistributionChartComponent } from "./components/investment-distribution-chart/investment-distribution-chart.component";
+import { PerformanceSummaryChartComponent } from "./components/performance-summary-chart/performance-summary-chart.component";
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -50,8 +51,9 @@ import { PerformanceSummaryChartComponent } from './components/performance-summa
     CommonModule,
     NgxChartsModule,
     BrowserAnimationsModule,
+    NgApexchartsModule,
   ],
-  exports: [NgxChartsModule],
+  exports: [NgxChartsModule, NgApexchartsModule],
   providers: [InvestmentService],
   bootstrap: [AppComponent],
 })
