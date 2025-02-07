@@ -65,10 +65,6 @@ export class UserDashboardComponent implements OnInit {
     return new Date(milliseconds);
   }
 
-  getStockColor(stockName: string): string {
-    return this.stockColors[stockName] || "#000000";
-  }
-
   ngOnInit() {
     const uid = localStorage.getItem("uid");
     if (uid) {
@@ -82,20 +78,20 @@ export class UserDashboardComponent implements OnInit {
       this.fetchStockPrices();
       // Fetch user data and stock prices from service or backend.
 
-      this.stockPrices = [
-        { name: "AAPL", price: 150 },
-        { name: "GOOGL", price: 2800 },
-        { name: "AMZN", price: 3500 },
-        { name: "MSFT", price: 300 },
-        { name: "TSLA", price: 800 },
-        { name: "FB", price: 340 },
-        { name: "NFLX", price: 550 },
-        { name: "NVDA", price: 220 },
-        { name: "BABA", price: 160 },
-        { name: "ORCL", price: 90 },
-        { name: "INTC", price: 50 },
-        { name: "IBM", price: 140 },
-      ];
+      // this.stockPrices = [
+      //   { name: "AAPL", price: 150 },
+      //   { name: "GOOGL", price: 2800 },
+      //   { name: "AMZN", price: 3500 },
+      //   { name: "MSFT", price: 300 },
+      //   { name: "TSLA", price: 800 },
+      //   { name: "FB", price: 340 },
+      //   { name: "NFLX", price: 550 },
+      //   { name: "NVDA", price: 220 },
+      //   { name: "BABA", price: 160 },
+      //   { name: "ORCL", price: 90 },
+      //   { name: "INTC", price: 50 },
+      //   { name: "IBM", price: 140 },
+      // ];
     }
   }
 
@@ -142,20 +138,32 @@ export class UserDashboardComponent implements OnInit {
       });
   }
 
+  getStockColor(stockName: string): string {
+    let hash = 0;
+    for (let i = 0; i < stockName.length; i++) {
+      hash = stockName.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    // Ensure the hue is a positive number within 0-359
+    const hue = Math.abs(hash) % 360;
+    // Use a fixed saturation and lightness for a sleek look on a dark background.
+    return `hsl(${hue}, 70%, 60%)`;
+  }
+
   fetchStockPrices(): void {
     this.http
       .get<any>(
         "https://financialmodelingprep.com/api/v3/stock/real-time-price",
         {
-          params: { apikey: "YOUR_API_KEY" },
+          params: { apikey: "EEtqdfmFwucWeqJBCjFb8vnhGgPtdxmM" },
         }
       )
       .subscribe({
         next: (data) => {
-          this.stockPrices = data.stockList.slice(0, 10).map((stock: any) => ({
+          this.stockPrices = data.stockList.map((stock: any) => ({
             name: stock.symbol,
             price: stock.price.toFixed(2),
           }));
+          console.log(this.stockPrices);
         },
         error: () => (this.error = "Failed to fetch stock prices"),
       });
