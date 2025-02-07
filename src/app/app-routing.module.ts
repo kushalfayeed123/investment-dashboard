@@ -7,6 +7,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { UserDashboardComponent } from "./components/user-dashboard/user-dashboard.component";
 import { WithdrawComponent } from "./components/withdraw/withdraw.component";
 import { UserDetailsComponent } from "./components/user-details/user-details.component";
+import { TransactionsComponent } from "./components/transactions/transactions.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "dashboard", component: UserDashboardComponent },
   { path: "deposit", component: DepositComponent },
   { path: "withdraw", component: WithdrawComponent },
+  { path: "transactions", component: TransactionsComponent },
   { path: "admin", component: AdminDashboardComponent },
   { path: "user-details/:uid", component: UserDetailsComponent },
 ];

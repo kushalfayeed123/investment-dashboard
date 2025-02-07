@@ -14,8 +14,15 @@ import { DepositComponent } from "./components/deposit/deposit.component";
 import { WithdrawComponent } from "./components/withdraw/withdraw.component";
 import { InvestmentService } from "./investment.service";
 import { CommonModule } from "@angular/common";
-import { SpinnerComponent } from './components/spinner/spinner.component';
-import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { SpinnerComponent } from "./components/spinner/spinner.component";
+import { UserDetailsComponent } from "./components/user-details/user-details.component";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { CryptoChartComponent } from "./components/crypto-chart/crypto-chart.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { TransactionsComponent } from './components/transactions/transactions.component';
+import { LiveNewsComponent } from './components/live-news/live-news.component';
+import { InvestmentDistributionChartComponent } from './components/investment-distribution-chart/investment-distribution-chart.component';
+import { PerformanceSummaryChartComponent } from './components/performance-summary-chart/performance-summary-chart.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +36,11 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     NavbarComponent,
     SpinnerComponent,
     UserDetailsComponent,
+    CryptoChartComponent,
+    TransactionsComponent,
+    LiveNewsComponent,
+    InvestmentDistributionChartComponent,
+    PerformanceSummaryChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +48,10 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     FormsModule,
     AppRoutingModule,
     CommonModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
   ],
+  exports: [NgxChartsModule],
   providers: [InvestmentService],
   bootstrap: [AppComponent],
 })

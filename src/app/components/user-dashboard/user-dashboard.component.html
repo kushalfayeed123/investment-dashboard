@@ -1,99 +1,113 @@
-<div class="min-h-screen p-2" *ngIf="userData">
-  <div class="rounded-lg">
-    <!-- User Info -->
-    <div class="mb-6 mt-[2.1875rem]">
-      <p class="text-2xl font-semibold text-gray-800 mb-2">
-        Welcome, {{ userData.name }}
-      </p>
-      <p class="text-sm text-gray-600">
-        <span class="font-semibold">Email:</span> {{ userData.email }}
-      </p>
+<div class="min-h-screen p-4 bg-white text-black" *ngIf="userData">
+  <div class="bg-white shadow-xl rounded-lg p-6 border border-gray-300">
+    <!-- Stock Prices Carousel -->
+    <div
+      class="mb-4 overflow-hidden whitespace-nowrap bg-gray-900 p-4 rounded-lg"
+    >
+      <marquee
+        behavior="scroll"
+        direction="left"
+        class="text-lg font-semibold text-white"
+      >
+        <span
+          *ngFor="let stock of stockPrices"
+          [ngStyle]="{ color: getStockColor(stock.name) }"
+        >
+          {{ stock.name }}:
+          {{ stock.price | currency : "USD" : "symbol" : "1.0-0" }}
+          &nbsp;&nbsp;|
+        </span>
+      </marquee>
+    </div>
+
+    <!-- Header: Welcome & Action Buttons -->
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <p class="text-3xl font-bold text-[#590202]">
+          Welcome, {{ userData.name }}
+        </p>
+        <p class="text-md text-gray-700">
+          <span class="font-semibold">Email:</span> {{ userData.email }}
+        </p>
+      </div>
+      <div class="flex gap-4">
+        <button
+          (click)="navigateToDeposit()"
+          class="bg-gradient-to-r from-[#590202] to-[#a61103] text-white py-3 px-6 rounded-lg shadow-lg hover:opacity-90 transition duration-300"
+        >
+          Add Funds
+        </button>
+        <button
+          (click)="navigateToWithdraw()"
+          class="bg-gradient-to-r from-[#a61103] to-[#590202] text-white py-3 px-6 rounded-lg shadow-lg hover:opacity-90 transition duration-300"
+        >
+          Withdraw Funds
+        </button>
+      </div>
     </div>
 
     <!-- Balances Section -->
-    <h3 class="text-xl font-semibold text-gray-800 mb-4">Balances</h3>
+    <h3 class="text-2xl font-semibold text-black mb-4">Balances</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <!-- Total Balance Card -->
-      <div class="shadow-lg rounded-lg p-4 bg-blue-100">
-        <h4 class="text-lg font-medium text-gray-700 mb-2 uppercase">
-          Total Balance
-        </h4>
-        <p class="text-xl font-semibold text-gray-800">
-          {{ userData.balances.totalBalance }}
+      <div class="shadow-md rounded-lg p-6 bg-black text-white">
+        <h4 class="text-lg font-medium uppercase">Total Balance</h4>
+        <p class="text-2xl font-semibold">
+          {{
+            userData.balances.totalBalance
+              | currency : "USD" : "symbol" : "1.2-2"
+          }}
         </p>
       </div>
       <!-- Profit Card -->
-      <div class="shadow-lg rounded-lg p-4 bg-green-100">
-        <h4 class="text-lg font-medium text-gray-700 mb-2 uppercase">Profit</h4>
-        <p class="text-xl font-semibold text-gray-800">
-          {{ userData.balances.profit }}
+      <div class="shadow-md rounded-lg p-6 bg-gray-800 text-white">
+        <h4 class="text-lg font-medium uppercase">Profit</h4>
+        <p class="text-2xl font-semibold">
+          {{ userData.balances.profit | currency : "USD" : "symbol" : "1.2-2" }}
         </p>
       </div>
     </div>
 
-    <!-- Deposit and Withdraw Buttons -->
-    <div class="flex justify-start mt-6 gap-2">
-      <button
-        (click)="navigateToDeposit()"
-        class="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition duration-300"
-      >
-        Deposit
-      </button>
-      <button
-        (click)="navigateToWithdraw()"
-        class="bg-red-500 text-white py-2 px-4 rounded-lg shadow hover:bg-red-600 transition duration-300"
-      >
-        Withdraw
-      </button>
-    </div>
-
-    <!-- Transactions Section -->
-    <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-4">
-      Transaction History
-    </h3>
-    <div *ngIf="transactions && transactions.length > 0" class="space-y-4">
-      <div
-        *ngFor="let transaction of transactions"
-        class="bg-white shadow-lg rounded-lg p-4"
-      >
-        <div class="flex justify-between items-center mb-2">
-          <h4 class="font-semibold text-gray-700">{{ transaction.type }}</h4>
-          <span class="text-sm text-gray-500">{{
-            transaction.createdAt | date : "medium"
-          }}</span>
+    <!-- Portfolio Overview Section -->
+    <div class="mt-8">
+      <h3 class="text-2xl font-semibold text-black mb-4">Portfolio Overview</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Investment Distribution Chart -->
+        <div class="shadow-md rounded-lg p-6 bg-gray-100">
+          <h4 class="text-lg font-medium text-[#590202] uppercase">
+            Investment Distribution
+          </h4>
+          <!-- Investment distribution data from userData or default values -->
+          <app-investment-distribution-chart
+            [data]="
+              userData.investmentDistribution || defaultInvestmentDistribution
+            "
+          >
+          </app-investment-distribution-chart>
         </div>
-        <div class="flex flex-col gap-2">
-          <p>
-            <span class="font-semibold text-gray-700">Amount:</span>
-            {{ transaction.amount }}
-          </p>
-          <p>
-            <span class="font-semibold text-gray-700">Currency:</span>
-            {{ transaction.currency }}
-          </p>
+        <!-- Performance Summary Chart -->
+        <div class="shadow-md rounded-lg p-6 bg-gray-100">
+          <h4 class="text-lg font-medium text-[#590202] uppercase">
+            Performance Summary
+          </h4>
+          <app-performance-summary-chart
+            [data]="userData.performanceSummary || defaultPerformanceSummary"
+          >
+          </app-performance-summary-chart>
         </div>
-        <div class="flex justify-between mt-2">
-          <p>
-            <span class="font-semibold text-gray-700">Status: </span>
-            <span
-              [ngClass]="{
-                'text-green-500': transaction.status === 'approved',
-                'text-yellow-500': transaction.status === 'pending',
-                'text-red-500': transaction.status === 'rejected'
-              }"
-              >{{ transaction.status }}</span
-            >
-          </p>
+        <!-- Live Market News Feed -->
+        <div class="shadow-md rounded-lg p-6 bg-gray-100">
+          <h4 class="text-lg font-medium text-[#590202] uppercase">
+            Market News
+          </h4>
+          <app-live-news></app-live-news>
         </div>
       </div>
     </div>
 
-    <!-- No Transactions Available -->
-    <div
-      *ngIf="!transactions || transactions.length === 0"
-      class="bg-white shadow-lg rounded-lg p-4"
-    >
-      <p class="text-gray-500">No transactions found.</p>
+    <!-- Crypto Charts Section -->
+    <div class="mt-8">
+      <app-crypto-chart></app-crypto-chart>
     </div>
   </div>
 </div>
@@ -101,7 +115,7 @@
 <!-- Error Message -->
 <div
   *ngIf="error"
-  class="max-w-md mx-auto bg-red-100 text-red-700 p-4 rounded-lg mt-6"
+  class="max-w-md mx-auto bg-red-100 text-red-700 p-4 rounded-lg mt-6 shadow-md"
 >
   {{ error }}
 </div>

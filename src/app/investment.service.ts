@@ -41,6 +41,11 @@ export class InvestmentService {
       headers: this.getAuthHeaders(),
     });
   }
+  getLatestNews(): Observable<any> {
+    return this.http.get(`${API_BASE}/dashboard`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 
   // Fetch user details by UID
   getUserDetails(uid: string): Observable<any> {
