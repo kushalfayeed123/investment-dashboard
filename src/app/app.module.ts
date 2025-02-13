@@ -24,6 +24,7 @@ import { LiveNewsComponent } from "./components/live-news/live-news.component";
 import { InvestmentDistributionChartComponent } from "./components/investment-distribution-chart/investment-distribution-chart.component";
 import { PerformanceSummaryChartComponent } from "./components/performance-summary-chart/performance-summary-chart.component";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { AdminTransactionsComponent } from './components/admin-transactions/admin-transactions.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     LiveNewsComponent,
     InvestmentDistributionChartComponent,
     PerformanceSummaryChartComponent,
+    AdminTransactionsComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { UserDashboardComponent } from "./components/user-dashboard/user-dashboa
 import { WithdrawComponent } from "./components/withdraw/withdraw.component";
 import { UserDetailsComponent } from "./components/user-details/user-details.component";
 import { TransactionsComponent } from "./components/transactions/transactions.component";
+import { AdminTransactionsComponent } from "./components/admin-transactions/admin-transactions.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: "withdraw", component: WithdrawComponent },
   { path: "transactions", component: TransactionsComponent },
   { path: "admin", component: AdminDashboardComponent },
+  { path: "history", component: AdminTransactionsComponent },
   { path: "user-details/:uid", component: UserDetailsComponent },
 ];
 

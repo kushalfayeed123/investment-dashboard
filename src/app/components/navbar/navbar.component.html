@@ -56,7 +56,12 @@
         <!-- For user role -->
         <ng-container *ngIf="role === 'user'">
           <li>
-            <a routerLink="/dashboard" class="block nav-link flex items-center">
+            <a
+              routerLink="/dashboard"
+              class="block nav-link flex items-center"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="inline-block mr-2">
                 <!-- Home Icon -->
                 <svg
@@ -78,7 +83,12 @@
             </a>
           </li>
           <li>
-            <a routerLink="/deposit" class="block nav-link flex items-center">
+            <a
+              routerLink="/deposit"
+              class="block nav-link flex items-center"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="inline-block mr-2">
                 <!-- Deposit Icon: Arrow Down Circle -->
                 <svg
@@ -100,7 +110,12 @@
             </a>
           </li>
           <li>
-            <a routerLink="/withdraw" class="block nav-link flex items-center">
+            <a
+              routerLink="/withdraw"
+              class="block nav-link flex items-center"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="inline-block mr-2">
                 <!-- Withdraw Icon: Arrow Up Circle -->
                 <svg
@@ -149,9 +164,14 @@
         </ng-container>
 
         <!-- For home role -->
-        <ng-container *ngIf="role === 'home'">
+        <ng-container *ngIf="role === 'admin'">
           <li>
-            <a routerLink="/users" class="block nav-link flex items-center">
+            <a
+              routerLink="/admin"
+              class="block nav-link flex items-center"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="inline-block mr-2">
                 <!-- Users Icon -->
                 <svg
@@ -180,36 +200,14 @@
               Users
             </a>
           </li>
+
           <li>
-            <a routerLink="/deposits" class="block nav-link flex items-center">
-              <span class="inline-block mr-2">
-                <!-- Deposits Icon: Currency Dollar -->
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 2v2m0 16v2m9-11h-2M5 12H3m16.364-5.636l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636"
-                  />
-                </svg>
-              </span>
-              Deposits
-            </a>
-          </li>
-          <li>
-            <a routerLink="/requests" class="block nav-link flex items-center">
+            <a
+              routerLink="/history"
+              class="block nav-link flex items-center"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="inline-block mr-2">
                 <!-- Requests Icon: Inbox -->
                 <svg
@@ -227,7 +225,7 @@
                   />
                 </svg>
               </span>
-              Requests
+              Transaction History
             </a>
           </li>
         </ng-container>
