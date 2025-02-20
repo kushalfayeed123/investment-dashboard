@@ -13,6 +13,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   depositAmount: number = 0;
   message: string = "";
   error: string = "";
+  showCashAppModal: boolean = false; // flag for displaying the modal
 
   // Flow control properties
   currentStep: number = 1; // 1: Enter Amount, 2: Wallet & Transfer, 3: Complete
@@ -30,7 +31,14 @@ export class DepositComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Fetch available currencies (wallets)
     this.investmentService.getCurrencies().subscribe({
-      next: (data: any) => (this.currencies = data),
+      next: (data: any) => {
+        // Sort the currencies so that "Cash App" is the first item in the list
+        this.currencies = data.sort((a: any, b: any) => {
+          if (a.name.toLowerCase() === "cash app") return -1;
+          if (b.name.toLowerCase() === "cash app") return 1;
+          return 0;
+        });
+      },
       error: (err) =>
         (this.error = err.error.error || "Error fetching currencies"),
     });
@@ -66,7 +74,15 @@ export class DepositComponent implements OnInit, OnDestroy {
 
   // Step 2: User selects a wallet
   selectCurrency(currency: any) {
+    if (currency.name.toLowerCase() === "cash app") {
+      this.showCashAppModal = true;
+      return; // do not set as the selected currency
+    }
     this.selectedCurrency = currency;
+  }
+
+  closeCashAppModal() {
+    this.showCashAppModal = false;
   }
 
   // Copies the wallet address, shows "Copied!" indicator, and selects the currency

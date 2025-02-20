@@ -144,13 +144,17 @@
             <div class="font-semibold">
               {{ currency.name }} ({{ currency.id }})
             </div>
-            <div class="text-sm">
+            <div
+              class="text-sm"
+              *ngIf="currency.name.toLowerCase() !== 'cash app'"
+            >
               Wallet Address:
               <span class="break-all">{{ currency.walletAddress }}</span>
             </div>
           </div>
           <div class="flex items-center space-x-2 mt-2 sm:mt-0">
             <button
+              *ngIf="currency.name.toLowerCase() !== 'cash app'"
               (click)="copyAddress(currency); $event.stopPropagation()"
               class="bg-gray-200 text-gray-800 px-2 py-1 rounded hover:bg-gray-300 transition-colors duration-300"
             >
@@ -222,5 +226,25 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Cash App Maintenance Modal -->
+<div
+  *ngIf="showCashAppModal"
+  class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-white rounded shadow-lg p-6 max-w-sm w-full">
+    <h3 class="text-xl font-bold mb-4">Notice</h3>
+    <p class="text-gray-700 mb-6">
+      Cash App deposit is currently under maintenance, please contact customer
+      support to complete the transaction.
+    </p>
+    <button
+      (click)="closeCashAppModal()"
+      class="w-full bg-[#a61103] text-white py-2 rounded hover:bg-[#590202] transition-colors duration-300"
+    >
+      Close
+    </button>
   </div>
 </div>
