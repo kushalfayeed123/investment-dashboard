@@ -25,6 +25,7 @@ import { InvestmentDistributionChartComponent } from "./components/investment-di
 import { PerformanceSummaryChartComponent } from "./components/performance-summary-chart/performance-summary-chart.component";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { AdminTransactionsComponent } from './components/admin-transactions/admin-transactions.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AdminTransactionsComponent } from './components/admin-transactions/admi
     InvestmentDistributionChartComponent,
     PerformanceSummaryChartComponent,
     AdminTransactionsComponent,
+    ChatbotComponent,
   ],
   imports: [
     BrowserModule,
