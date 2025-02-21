@@ -1,23 +1,4 @@
-<!-- src/app/chatbot/chatbot.component.html -->
-<div class="chatbot-widget" [class.closed]="!isOpen">
-  <div class="chatbot-header" (click)="toggleChat()">
-    <span>Investment Assistant</span>
-    <span class="toggle-btn">{{ isOpen ? "−" : "+" }}</span>
-  </div>
-  <div class="chatbot-body" *ngIf="isOpen">
-    <div class="messages">
-      <div *ngFor="let msg of messages" [ngClass]="msg.from">
-        {{ msg.text }}
-      </div>
-    </div>
-    <div class="input-area" *ngIf="collecting">
-      <input
-        type="text"
-        [(ngModel)]="userInput"
-        placeholder="Type your answer..."
-        (keydown.enter)="sendMessage()"
-      />
-      <button (click)="sendMessage()">Send</button>
-    </div>
-  </div>
-</div>
+<!-- WhatsApp Chat Bot Button -->
+<a (click)="startChat()" class="whatsapp-chat-button">
+  <img src="./assets/images/whatsapp.png" alt="Chat with Customer Service" />
+</a>
