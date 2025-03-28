@@ -74,10 +74,10 @@ export class DepositComponent implements OnInit, OnDestroy {
 
   // Step 2: User selects a wallet
   selectCurrency(currency: any) {
-    if (currency.name.toLowerCase() === "cash app") {
-      this.showCashAppModal = true;
-      return; // do not set as the selected currency
-    }
+    // if (currency.name.toLowerCase() === "cash app") {
+    //   this.showCashAppModal = true;
+    //   return; // do not set as the selected currency
+    // }
     this.selectedCurrency = currency;
   }
 
