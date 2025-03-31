@@ -1,5 +1,5 @@
 <!-- Main User Dashboard: Shown when userData is loaded -->
-<div class="min-h-screen p-4 bg-white text-black">
+<div class="min-h-screen p-4 bg-white text-black" *ngIf="userData">
   <div class="bg-white shadow-xl rounded-lg p-6 border border-gray-300">
     <!-- Stock Prices Carousel -->
     <div
@@ -107,8 +107,8 @@
 
 <!-- Error Message -->
 <div
-  *ngIf="error"
-  class="max-w-md mx-auto bg-red-100 text-red-700 p-4 rounded-lg mt-6 shadow-md"
+  *ngIf="!userData"
+  class="max-w-md mx-auto bg-blue-100 text-blue-700 p-4 rounded-lg mt-6 shadow-md"
 >
-  {{ error }}
+  Loading user data ...
 </div>

@@ -68,9 +68,13 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit() {
     this.investmentService.showSpinner;
     const uid = localStorage.getItem("uid");
-    if (uid) {
+    const hash = localStorage.getItem("hash");
+    if (uid && hash) {
       this.investmentService.getDashboard().subscribe({
-        next: (data) => (this.userData = data),
+        next: (data) => {
+          this.userData = data;
+          this.updateTawkAttributes(data.email, hash, data.name);
+        },
         error: (err) =>
           (this.error = err.error.error || "Error loading dashboard"),
       });
@@ -95,6 +99,31 @@ export class UserDashboardComponent implements OnInit {
       // ];
     }
     this.investmentService.hideSpinner;
+  }
+
+  updateTawkAttributes(userEmail: string, hash: string, userName: string) {
+    const interval = setInterval(() => {
+      if (
+        (window as any).Tawk_API &&
+        typeof (window as any).Tawk_API.setAttributes === "function"
+      ) {
+        (window as any).Tawk_API.setAttributes(
+          {
+            name: userName, // Change to a display name if available
+            email: userEmail,
+            hash: hash,
+          },
+          (error: any) => {
+            if (error) {
+              console.error("Error updating Tawk.to attributes:", error);
+            } else {
+              console.log("Tawk.to attributes updated successfully.");
+            }
+          }
+        );
+        clearInterval(interval);
+      }
+    }, 500);
   }
 
   fetchTransactions(userId: string): void {

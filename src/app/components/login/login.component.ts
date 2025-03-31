@@ -30,6 +30,7 @@ export class LoginComponent {
           localStorage.setItem("uid", res.uid);
           localStorage.setItem("idToken", res.idToken); // Store the idToken as well
           localStorage.setItem("role", res.role);
+          localStorage.setItem("hash", res.hash);
           this.investmentService.hideSpinner();
 
           if (res.role == "admin") {
