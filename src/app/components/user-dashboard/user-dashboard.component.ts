@@ -73,7 +73,6 @@ export class UserDashboardComponent implements OnInit {
       this.investmentService.getDashboard().subscribe({
         next: (data) => {
           this.userData = data;
-          this.updateTawkAttributes(data.email, hash, data.name);
         },
         error: (err) =>
           (this.error = err.error.error || "Error loading dashboard"),
