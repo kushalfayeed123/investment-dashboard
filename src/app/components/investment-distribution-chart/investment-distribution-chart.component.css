@@ -1,0 +1,6 @@
+/* investment-distribution-chart.component.css */
+#investmentDistributionChart {
+  display: block;
+  min-height: 350px; /* Essential for ApexCharts to calculate scaling */
+  width: 100%;
+}

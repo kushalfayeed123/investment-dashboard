@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-[#F9FAFB]  antialiased" *ngIf="transactions">
+<div class="min-h-screen bg-[#F9FAFB] p-4 md:p-8 lg:p-10  antialiased" *ngIf="transactions">
   <div class="max-w-6xl mx-auto">
 
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
@@ -24,17 +24,19 @@
     <div *ngIf="filteredTransactions().length > 0" class="flex flex-col gap-3">
       <div *ngFor="let transaction of filteredTransactions()"
         class="group bg-white rounded-2xl border border-zinc-100 p-5 flex flex-col md:flex-row md:items-center transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-        
+
         <div class="flex items-center gap-4 w-full md:w-64 shrink-0">
           <div [ngClass]="{
             'bg-emerald-50 text-emerald-600': transaction.status === 'approved',
             'bg-amber-50 text-amber-600': transaction.status === 'pending',
             'bg-red-50 text-red-600': transaction.status === 'rejected'
           }" class="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0">
-            <svg *ngIf="transaction.type === 'deposit'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="transaction.type === 'deposit'" class="w-6 h-6" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
-            <svg *ngIf="transaction.type === 'withdraw'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="transaction.type === 'withdraw'" class="w-6 h-6" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
             </svg>
           </div>
@@ -61,15 +63,17 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between md:justify-end gap-6 w-full md:w-[280px] shrink-0 border-t md:border-t-0 pt-4 md:pt-0">
-          
+        <div
+          class="flex items-center justify-between md:justify-end gap-6 w-full md:w-[280px] shrink-0 border-t md:border-t-0 pt-4 md:pt-0">
+
           <div class="flex flex-col items-end">
             <span class="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Status</span>
             <span [ngClass]="{
               'text-emerald-600 bg-emerald-50 border-emerald-100': transaction.status === 'approved',
               'text-amber-600 bg-amber-50 border-amber-100': transaction.status === 'pending',
               'text-red-600 bg-red-50 border-red-100': transaction.status === 'rejected'
-            }" class="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter border min-w-[75px] text-center">
+            }"
+              class="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter border min-w-[75px] text-center">
               {{ transaction.status }}
             </span>
           </div>
@@ -99,10 +103,53 @@
       class="bg-white rounded-3xl border-2 border-dashed border-zinc-200 p-20 text-center">
       <div class="w-16 h-16 bg-zinc-50 rounded-full flex items-center justify-center mx-auto mb-4">
         <svg class="w-8 h-8 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
         </svg>
       </div>
       <p class="text-zinc-500 font-bold tracking-tight">No records found for this asset class.</p>
+    </div>
+  </div>
+</div>
+<div *ngIf="activeModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm" (click)="closeModal()"></div>
+
+  <div
+    class="relative bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl border border-zinc-100 p-8 overflow-hidden animate-in zoom-in-95 duration-200">
+
+    <div [ngClass]="activeModal.type === 'approve' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'"
+      class="w-16 h-16 rounded-3xl flex items-center justify-center mb-6">
+      <svg *ngIf="activeModal.type === 'approve'" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+      </svg>
+      <svg *ngIf="activeModal.type === 'deny'" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+
+    <h2 class="text-2xl font-black text-zinc-900 tracking-tighter mb-2">
+      {{ activeModal.type === 'approve' ? 'Confirm Approval' : 'Confirm Rejection' }}
+    </h2>
+
+    <p class="text-zinc-500 text-sm font-medium leading-relaxed mb-8">
+      You are about to {{ activeModal.type === 'approve' ? 'authorize' : 'deny' }} a
+      <span class="font-bold text-zinc-900">{{ activeModal.transaction.amount | currency }}</span>
+      {{ activeModal.transaction.type }} for <span class="font-bold text-zinc-900">{{ activeModal.transaction.userName
+        }}</span>.
+      This action cannot be undone.
+    </p>
+
+    <div class="flex flex-col gap-3">
+      <button (click)="confirmAction()"
+        [ngClass]="activeModal.type === 'approve' ? 'bg-zinc-900 hover:bg-emerald-600' : 'bg-[#a61103] hover:bg-red-700'"
+        class="w-full py-4 rounded-2xl text-white text-xs font-black uppercase tracking-[0.2em] transition-all active:scale-[0.98] shadow-lg">
+        Execute {{ activeModal.type }}
+      </button>
+
+      <button (click)="closeModal()"
+        class="w-full py-4 rounded-2xl bg-zinc-50 text-zinc-400 text-xs font-black uppercase tracking-[0.2em] hover:text-zinc-900 transition-all">
+        Cancel Process
+      </button>
     </div>
   </div>
 </div>

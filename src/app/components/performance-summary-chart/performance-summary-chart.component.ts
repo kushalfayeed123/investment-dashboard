@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from "@angular/core";
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -12,19 +6,20 @@ import {
   ApexStroke,
   ApexXAxis,
   ApexResponsive,
-  ApexTitleSubtitle,
+  ApexYAxis,
+  ApexPlotOptions
 } from "ng-apexcharts";
-import { ChartComponent } from "ng-apexcharts";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   dataLabels: ApexDataLabels;
   stroke: ApexStroke;
   responsive: ApexResponsive[];
-  title: ApexTitleSubtitle;
   colors: string[];
+  plotOptions: ApexPlotOptions;
 };
 
 @Component({
@@ -32,30 +27,21 @@ export type ChartOptions = {
   templateUrl: "./performance-summary-chart.component.html",
   styleUrls: ["./performance-summary-chart.component.css"],
 })
-export class PerformanceSummaryChartComponent implements OnInit {
+export class PerformanceSummaryChartComponent implements OnInit, OnChanges {
   @Input() data: any;
-  // Expected format:
-  // { annualReturn: number, volatility: number, maxDrawdown: number, sharpeRatio: number, beta: number }
-  @ViewChild("chart") chart: ChartComponent | undefined;
-  public chartOptions!: ChartOptions;
-  private viewWidth: number = window.innerWidth;
-
-  @HostListener("window:resize", ["$event"])
-  onResize() {
-    this.viewWidth = window.innerWidth;
-    this.setChartOptions();
-  }
+  public chartOptions: Partial<ChartOptions> = {};
 
   ngOnInit(): void {
-    this.setChartOptions();
+    this.initChart();
   }
 
-  setChartOptions(): void {
-    // Calculate chart width: if window width > 320px, use 33% of window width; otherwise, use full width.
-    const chartWidth =
-      this.viewWidth > 320 ? this.viewWidth * 0.33 : this.viewWidth;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] && !changes['data'].firstChange) {
+      this.initChart();
+    }
+  }
 
-    // Use provided data or fallback default values.
+  initChart(): void {
     const inputData = this.data || {
       annualReturn: 8,
       volatility: 12,
@@ -64,55 +50,59 @@ export class PerformanceSummaryChartComponent implements OnInit {
       beta: 0.95,
     };
 
-    const categories = [
-      "Annual Return (%)",
-      "Volatility (%)",
-      "Max Drawdown (%)",
-      "Sharpe Ratio",
-      "Beta",
-    ];
-
-    const seriesData = [
-      inputData.annualReturn || 8,
-      inputData.volatility || 12,
-      inputData.maxDrawdown || 10,
-      inputData.sharpeRatio || 1.5,
-      inputData.beta || 0.95,
-    ];
-
     this.chartOptions = {
-      series: [
-        {
-          name: "Performance Metrics",
-          data: seriesData,
-        },
-      ],
+      series: [{
+        name: "Performance",
+        data: [
+          inputData.annualReturn,
+          inputData.volatility,
+          inputData.maxDrawdown,
+          inputData.sharpeRatio,
+          inputData.beta
+        ]
+      }],
       chart: {
         type: "bar",
-        height: 400,
-        width: chartWidth,
-        animations: { enabled: true },
+        height: 350,
+        width: "100%", // Let CSS handle the width
+        toolbar: { show: false },
+        fontFamily: 'inherit'
       },
-      title: {
-        text: "",
-        align: "left",
-        style: { fontSize: "18px", color: "#333" },
+      plotOptions: {
+        bar: {
+          horizontal: true, // Horizontal bars fit text labels much better on mobile
+          borderRadius: 8,
+          columnWidth: '50%',
+          distributed: true // Allows different colors for each bar
+        }
+      },
+      colors: ["#590202", "#a61103", "#09090b", "#27272a", "#52525b"],
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'start',
+        style: { colors: ['#fff'] },
+        formatter: (val, opt) => {
+          return val + (opt.dataPointIndex < 3 ? '%' : ''); // Add % to first 3 metrics
+        }
       },
       xaxis: {
-        categories: categories,
+        categories: ["Return", "Volatility", "Drawdown", "Sharpe", "Beta"],
+        labels: { show: false }, // Hide axis for a cleaner "metric" look
+        axisBorder: { show: false }
       },
-      dataLabels: { enabled: true },
-      stroke: { show: true, width: 2, colors: ["transparent"] },
-      // Use your app's branding: primary red (#590202), secondary red (#a61103), then black and dark grays.
-      colors: ["#590202", "#a61103", "#000000", "#333333", "#555555"],
-      responsive: [
-        {
-          breakpoint: 768,
-          options: {
-            chart: { height: 300, width: chartWidth },
-          },
-        },
-      ],
+      yaxis: {
+        labels: {
+          style: { fontWeight: 700, colors: "#71717a" }
+        }
+      },
+      stroke: { show: false },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: { height: 300 },
+          plotOptions: { bar: { borderRadius: 4 } }
+        }
+      }]
     };
   }
 }

@@ -64,7 +64,16 @@
       <div>
         <h3 class="px-4 text-[11px] font-bold text-zinc-600 uppercase tracking-widest mb-4">Activity & Reporting</h3>
         <div class="space-y-1">
-          <a routerLink="/history" routerLinkActive="bg-zinc-900 text-white"
+          <a *ngIf="role !== 'user'" routerLink="/history" routerLinkActive="bg-zinc-900 text-white"
+            class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-xl transition-all group">
+            <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="font-medium text-sm">Ledger History</span>
+          </a>
+          <a *ngIf="role === 'user'" routerLink="/transactions" routerLinkActive="bg-zinc-900 text-white"
             class="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-xl transition-all group">
             <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor"
               viewBox="0 0 24 24">
@@ -113,12 +122,12 @@
       <div class="bg-zinc-900 rounded-2xl p-4 border border-white/5">
         <div class="flex items-center gap-3 mb-4">
           <div
-            class="w-10 h-10 rounded-full bg-gradient-to-tr from-zinc-700 to-zinc-800 flex items-center justify-center text-xs font-bold text-white border border-white/10">
-            {{ role === 'admin' ? 'AD' : 'US' }}
+            class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#590202] to-[#a61103] flex items-center justify-center text-xs font-bold text-white border border-white/10 shadow-inner">
+            {{ getInitials(username) }}
           </div>
           <div class="overflow-hidden">
-            <p class="text-white text-xs font-bold truncate capitalize">{{ role }} Account</p>
-            <p class="text-zinc-500 text-[10px] truncate">Secure Connection</p>
+            <p class="text-white text-xs font-bold truncate capitalize">{{ username }}</p>
+            <p class="text-zinc-500 text-[10px] truncate uppercase tracking-widest">{{ role }} Account</p>
           </div>
         </div>
         <button (click)="logout()"
@@ -143,11 +152,11 @@
           <span class="absolute top-0 right-0 w-2 h-2 bg-red-600 rounded-full border-2 border-white"></span>
         </button>
         <div class="w-px h-6 bg-zinc-200"></div>
-        <span class="text-zinc-800 font-bold text-sm tracking-tight">{{ role | uppercase }}</span>
+        <span class="text-zinc-800 font-bold text-sm tracking-tight capitalize">{{ username }}</span>
       </div>
     </header>
 
-    <div class="p-8">
+    <div>
       <router-outlet></router-outlet>
     </div>
   </main>

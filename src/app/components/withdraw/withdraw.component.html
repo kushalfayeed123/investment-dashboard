@@ -1,109 +1,117 @@
-<div class="min-h-screen bg-gray-100">
-  <!-- Header that adheres to the app theme -->
-  <header class="w-full py-4 bg-white border-b">
-    <h1 class="text-3xl text-center font-bold text-[#590202]">
-      Withdrawal Request
-    </h1>
-  </header>
-
-  <!-- Main content container -->
-  <div class="max-w-md mx-auto p-6">
-    <!-- Dynamic Progress Indicator (visible on form view) -->
-    <div class="mb-6" *ngIf="currentStep === 1">
-      <div class="flex justify-center items-center space-x-2">
-        <div
-          class="w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold bg-[#a61103] text-white border-[#590202]"
-        >
-          1
-        </div>
-        <span class="text-gray-600">Enter Details</span>
+<div class="min-h-screen bg-[#FDFDFD] text-zinc-900 antialiased selection:bg-[#a61103]/10">
+  
+  <nav class="px-6 py-8 flex justify-between items-center max-w-2xl mx-auto">
+    <button (click)="goToDashboard()" class="w-12 h-12 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center hover:border-zinc-300 transition-all shadow-sm">
+      <svg class="w-5 h-5 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="text-center">
+      <span class="block text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-1">Secure Payout</span>
+      <div class="flex gap-1.5 justify-center">
+        <div [ngClass]="currentStep >= 1 ? 'bg-[#a61103]' : 'bg-zinc-200'" class="w-6 h-1 rounded-full transition-all"></div>
+        <div [ngClass]="currentStep >= 2 ? 'bg-[#a61103]' : 'bg-zinc-200'" class="w-6 h-1 rounded-full transition-all"></div>
       </div>
     </div>
+    <div class="w-12"></div>
+  </nav>
 
-    <!-- Step 1: Withdrawal Form -->
-    <div *ngIf="currentStep === 1" class="bg-white shadow rounded p-6">
-      <h2 class="text-2xl font-bold mb-4">Withdrawal Request</h2>
-      <div *ngIf="error" class="bg-red-100 text-red-700 p-2 rounded mb-4">
-        {{ error }}
+  <div class="max-w-xl mx-auto px-6 pb-20">
+
+    <div *ngIf="currentStep === 1" class="space-y-8 animate-in fade-in slide-in-from-top-4 duration-500">
+      <div class="text-center space-y-3">
+        <h2 class="text-5xl font-black tracking-tighter text-zinc-900">
+          Request <span class="text-[#a61103]">Payout.</span>
+        </h2>
+        <p class="text-zinc-500 font-medium max-w-xs mx-auto text-sm leading-relaxed">
+          Select your preferred asset and enter the destination for your funds.
+        </p>
       </div>
-      <div *ngIf="message" class="bg-green-100 text-green-700 p-2 rounded mb-4">
-        {{ message }}
+
+      <div *ngIf="error || message" class="animate-in slide-in-from-bottom-2 duration-300">
+        <div *ngIf="error" class="bg-red-50 text-red-700 p-4 rounded-2xl text-xs font-bold border border-red-100 flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+          {{ error }}
+        </div>
+        <div *ngIf="message" class="bg-emerald-50 text-emerald-700 p-4 rounded-2xl text-xs font-bold border border-emerald-100">
+          {{ message }}
+        </div>
       </div>
-      <div class="mb-4">
-        <label class="block text-gray-700">Select Currency</label>
-        <select
-          [(ngModel)]="withdrawData.currency"
-          class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#590202]"
-        >
-          <option value="">--Select--</option>
-          <option *ngFor="let curr of availableCurrencies" [value]="curr.id">
-            {{ curr.name }}
-          </option>
-        </select>
+
+      <div class="bg-white border-2 border-zinc-100 rounded-[2.5rem] p-8 shadow-xl shadow-zinc-200/40 space-y-6">
+        
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-4">Select Asset</label>
+          <div class="relative">
+            <select
+              [(ngModel)]="withdrawData.currency"
+              class="appearance-none w-full bg-zinc-50 border-none px-6 py-4 rounded-2xl font-bold text-zinc-900 focus:ring-2 focus:ring-[#a61103]/20 transition-all cursor-pointer"
+            >
+              <option value="">-- Choose Currency --</option>
+              <option *ngFor="let curr of availableCurrencies" [value]="curr.id">
+                {{ curr.name }}
+              </option>
+            </select>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2 animate-in fade-in duration-500" *ngIf="withdrawData.currency">
+          <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-4">
+            {{ withdrawData.currency === 'USD' ? 'Bank Account Number' : 'Destination Wallet Address' }}
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="withdrawData.currency === 'USD' ? withdrawData.accountNumber : withdrawData.walletAddress"
+            placeholder="{{ withdrawData.currency === 'USD' ? '0000000000' : 'Paste address here' }}"
+            class="w-full bg-zinc-50 border-none px-6 py-4 rounded-2xl font-mono text-sm focus:ring-2 focus:ring-[#a61103]/20 transition-all"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-4">Withdrawal Amount</label>
+          <div class="relative">
+            <span class="absolute left-6 top-1/2 -translate-y-1/2 font-black text-zinc-400">$</span>
+            <input
+              type="number"
+              [(ngModel)]="withdrawData.amount"
+              placeholder="0.00"
+              class="w-full bg-zinc-50 border-none pl-10 pr-6 py-4 rounded-2xl font-black text-lg focus:ring-2 focus:ring-[#a61103]/20 transition-all"
+            />
+          </div>
+        </div>
       </div>
-      <!-- Conditional fields based on currency selection -->
-      <div *ngIf="withdrawData.currency === 'USD'" class="mb-4">
-        <label class="block text-gray-700">Account Number</label>
-        <input
-          type="text"
-          [(ngModel)]="withdrawData.accountNumber"
-          class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#590202]"
-        />
-      </div>
-      <div
-        *ngIf="withdrawData.currency && withdrawData.currency !== 'USD'"
-        class="mb-4"
-      >
-        <label class="block text-gray-700">Destination Wallet Address</label>
-        <input
-          type="text"
-          [(ngModel)]="withdrawData.walletAddress"
-          class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#590202]"
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700">Amount</label>
-        <input
-          type="number"
-          [(ngModel)]="withdrawData.amount"
-          class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#590202]"
-        />
-      </div>
+
       <button
         (click)="submitWithdraw()"
-        class="w-full bg-[#a61103] text-white py-2 rounded hover:bg-[#590202] transition-colors duration-300"
         [disabled]="processingWithdrawal"
+        class="w-full bg-[#a61103] text-white py-6 rounded-[2rem] font-black uppercase tracking-widest hover:bg-[#590202] transition-all transform active:scale-[0.98] shadow-xl shadow-red-900/10 disabled:opacity-50"
       >
-        Confirm Withdrawal
+        {{ processingWithdrawal ? 'Processing...' : 'Confirm Payout' }}
       </button>
     </div>
 
-    <!-- Step 2: Success Screen -->
-    <div
-      *ngIf="currentStep === 2"
-      class="bg-white shadow rounded p-6 text-center"
-    >
-      <h2 class="text-3xl font-bold mb-4" style="color: #590202">
-        Withdrawal Request Successful!
-      </h2>
-      <p class="mb-6 text-gray-700">
-        Your withdrawal request has been submitted successfully and is currently
-        processing, we will get in touch when it is done.
-      </p>
-      <div
-        class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4"
-      >
-        <button
-          (click)="restartWithdrawal()"
-          class="w-full sm:w-auto bg-[#a61103] text-white py-2 px-4 rounded hover:bg-[#590202] transition-colors duration-300"
-        >
-          Reinitiate Withdrawal
+    <div *ngIf="currentStep === 2" class="text-center py-16 space-y-8 animate-in zoom-in-90 duration-500">
+      <div class="relative w-32 h-32 mx-auto">
+        <div class="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-20"></div>
+        <div class="relative w-32 h-32 rounded-full border-4 border-emerald-50 bg-white flex items-center justify-center shadow-2xl shadow-emerald-200/50">
+          <svg class="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <h2 class="text-4xl font-black tracking-tighter text-zinc-900">Request Filed.</h2>
+        <p class="text-zinc-500 font-medium max-w-xs mx-auto text-sm leading-relaxed">
+          Your withdrawal is being audited by our compliance team. You will receive an alert once settlement is complete.
+        </p>
+      </div>
+
+      <div class="pt-8 grid gap-3">
+        <button (click)="goToDashboard()" class="w-full bg-zinc-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-black transition-all">
+          Return to Vault
         </button>
-        <button
-          (click)="goToDashboard()"
-          class="w-full sm:w-auto bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition-colors duration-300"
-        >
-          Back to Dashboard
+        <button (click)="restartWithdrawal()" class="text-zinc-400 font-bold text-xs uppercase tracking-widest hover:text-zinc-900 transition-colors">
+          New Withdrawal
         </button>
       </div>
     </div>
