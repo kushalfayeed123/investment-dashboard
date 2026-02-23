@@ -1,4 +1,29 @@
-.active {
-    background: rgba(248, 136, 136, 0.3);
-    color: #fff;
+/* 1. Custom Sleek Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Very thin */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Subtle white tint */
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1); /* Subtle white tint */
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(166, 17, 3, 0.4); /* Maroon tint on hover to match your brand */
+}
+
+/* 2. Utility to hide scrollbar but keep functionality (Optional) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

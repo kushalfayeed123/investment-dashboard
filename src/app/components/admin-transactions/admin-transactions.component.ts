@@ -23,8 +23,9 @@ export class AdminTransactionsComponent implements OnInit {
   transactions: Transaction[] = [];
   activeTab: "deposit" | "withdraw" = "deposit";
   error: string = "";
+  activeModal: { transaction: Transaction, type: 'approve' | 'deny' } | null = null;
 
-  constructor(private investmentService: InvestmentService) {}
+  constructor(private investmentService: InvestmentService) { }
 
   ngOnInit() {
     this.loadTransactions();
@@ -85,21 +86,40 @@ export class AdminTransactionsComponent implements OnInit {
     return this.transactions.filter((t) => t.type === this.activeTab);
   }
 
+  // component.ts logic fixes
   approveTransaction(transaction: Transaction) {
-    let payload = {
-      transactionId: transaction.id,
-      approved: true, // set to true to approve, false to reject
-    };
-    transaction.status = "approved";
+    this.activeModal = { transaction, type: 'approve' };
+  }
+
+  // 2. Open Modal for Denial
+  denyTransaction(transaction: Transaction) {
+    this.activeModal = { transaction, type: 'deny' };
+  }
+
+  // 3. The Actual Final Execution
+  confirmAction() {
+    if (!this.activeModal) return;
+
+    const { transaction, type } = this.activeModal;
+    const isApproved = type === 'approve';
+
+    // Optimistic UI
+    transaction.status = isApproved ? 'approved' : 'rejected';
+    const payload = { transactionId: transaction.id, approved: isApproved };
 
     this.investmentService.approveDeposit(payload).subscribe({
-      next: (res) => {
-        this.investmentService.getAllTransactions().subscribe();
+      next: () => {
+        this.closeModal();
+        this.loadTransactions();
       },
+      error: () => {
+        this.error = "Operation failed.";
+        this.closeModal();
+      }
     });
   }
 
-  denyTransaction(transaction: Transaction) {
-    transaction.status = "rejected";
+  closeModal() {
+    this.activeModal = null;
   }
 }
