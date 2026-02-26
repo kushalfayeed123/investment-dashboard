@@ -1,8 +1,15 @@
 <div class="bg-gray-50 min-h-screen">
-  <app-spinner></app-spinner>
-  <app-navbar *ngIf="showNavbar"></app-navbar>
-  <div *ngIf="!showNavbar">
-    <router-outlet></router-outlet>
+  <div *ngIf="appSuspended">
+
+    <app-suspended></app-suspended>
   </div>
-  <app-chatbot></app-chatbot>
+  <div *ngIf="!appSuspended">
+
+    <app-spinner></app-spinner>
+    <app-navbar *ngIf="showNavbar"></app-navbar>
+    <div *ngIf="!showNavbar">
+      <router-outlet></router-outlet>
+    </div>
+    <app-chatbot></app-chatbot>
+  </div>
 </div>

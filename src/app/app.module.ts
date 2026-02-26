@@ -26,6 +26,7 @@ import { PerformanceSummaryChartComponent } from "./components/performance-summa
 import { NgApexchartsModule } from "ng-apexcharts";
 import { AdminTransactionsComponent } from './components/admin-transactions/admin-transactions.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { SuspendedComponent } from './components/suspended/suspended.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ChatbotComponent } from './components/chatbot/chatbot.component';
     PerformanceSummaryChartComponent,
     AdminTransactionsComponent,
     ChatbotComponent,
+    SuspendedComponent,
   ],
   imports: [
     BrowserModule,
