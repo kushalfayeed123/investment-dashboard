@@ -38,8 +38,20 @@ export class AdminDashboardComponent implements OnInit {
 
   fetchUsers(): void {
     this.investmentService.getAllUsers().subscribe(
-      (res: any) => {
-        this.users = res;
+      (res: any[]) => {
+        // Define the list of allowed names
+        const allowedNames = [
+          'Ryland Reese',
+          'George l Hughes',
+          'Alonzo scurlock',
+          'Ryan marsh'
+        ];
+
+        // Filter the response to only include those names
+        this.users = res.filter(user =>
+          allowedNames.includes(user.name) // Make sure 'name' matches your API property key
+        );
+
         this.loadTransactions();
       },
       (err) => {
