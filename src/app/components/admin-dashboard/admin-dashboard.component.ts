@@ -49,9 +49,9 @@ export class AdminDashboardComponent implements OnInit {
 
         // Filter the response to only include those names
         this.users = res.filter(user =>
-          allowedNames.includes(user.name.toLowercase()) // Make sure 'name' matches your API property key
+          allowedNames.includes(user.name.toLowerCase().trim()) // Make sure 'name' matches your API property key
         );
-        this.users = res;
+        // this.users = res;
 
         this.loadTransactions();
       },
