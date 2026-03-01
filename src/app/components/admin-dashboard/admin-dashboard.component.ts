@@ -48,9 +48,10 @@ export class AdminDashboardComponent implements OnInit {
         ];
 
         // Filter the response to only include those names
-        this.users = res.filter(user =>
-          allowedNames.includes(user.name) // Make sure 'name' matches your API property key
-        );
+        // this.users = res.filter(user =>
+        //   allowedNames.includes(user.name) // Make sure 'name' matches your API property key
+        // );
+        this.users = res;
 
         this.loadTransactions();
       },
