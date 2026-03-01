@@ -41,16 +41,16 @@ export class AdminDashboardComponent implements OnInit {
       (res: any[]) => {
         // Define the list of allowed names
         const allowedNames = [
-          'Ryland Reese',
-          'George l Hughes',
-          'Alonzo scurlock',
-          'Ryan marsh'
+          'ryland reese',
+          'george l hughes',
+          'alonzo scurlock',
+          'ryan marsh'
         ];
 
         // Filter the response to only include those names
-        // this.users = res.filter(user =>
-        //   allowedNames.includes(user.name) // Make sure 'name' matches your API property key
-        // );
+        this.users = res.filter(user =>
+          allowedNames.includes(user.name.toLowercase()) // Make sure 'name' matches your API property key
+        );
         this.users = res;
 
         this.loadTransactions();
