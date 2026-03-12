@@ -44,7 +44,8 @@ export class AdminDashboardComponent implements OnInit {
           'ryland reese',
           'george l hughes',
           'alonzo scurlock',
-          'ryan marsh'
+          'ryan marsh',
+          'glenn'
         ];
 
         // Filter the response to only include those names
