@@ -40,19 +40,19 @@ export class AdminDashboardComponent implements OnInit {
     this.investmentService.getAllUsers().subscribe(
       (res: any[]) => {
         // Define the list of allowed names
-        const allowedNames = [
-          'ryland reese',
-          'george l hughes',
-          'alonzo scurlock',
-          'ryan marsh',
-          'glenn'
-        ];
+        // const allowedNames = [
+        //   'ryland reese',
+        //   'george l hughes',
+        //   'alonzo scurlock',
+        //   'ryan marsh',
+        //   'glenn'
+        // ];
 
-        // Filter the response to only include those names
-        this.users = res.filter(user =>
-          allowedNames.includes(user.name.toLowerCase().trim()) // Make sure 'name' matches your API property key
-        );
-        // this.users = res;
+        // // Filter the response to only include those names
+        // this.users = res.filter(user =>
+        //   allowedNames.includes(user.name.toLowerCase().trim()) // Make sure 'name' matches your API property key
+        // );
+        this.users = res;
 
         this.loadTransactions();
       },
