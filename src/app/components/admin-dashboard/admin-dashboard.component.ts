@@ -40,19 +40,33 @@ export class AdminDashboardComponent implements OnInit {
     this.investmentService.getAllUsers().subscribe(
       (res: any[]) => {
         // Define the list of allowed names
-        // const allowedNames = [
-        //   'ryland reese',
-        //   'george l hughes',
-        //   'alonzo scurlock',
-        //   'ryan marsh',
-        //   'glenn'
-        // ];
+        const allowedNames = [
+          'ryland reese',
+          'george l hughes',
+          'alonzo scurlock',
+          'ryan marsh',
+          'glenn'
+        ];
 
-        // // Filter the response to only include those names
-        // this.users = res.filter(user =>
-        //   allowedNames.includes(user.name.toLowerCase().trim()) // Make sure 'name' matches your API property key
-        // );
-        this.users = res;
+        // Unix timestamp for Feb 1, 2026 (Users created after Jan 2026)
+        const cutoffSeconds = 1771665000;
+        const excludedEmail = 'segunajanaku617@gmail.com';
+
+        this.users = res.filter(user => {
+          // 1. Normalize data for comparison
+          const userName = user.name?.toLowerCase().trim() || '';
+          const userEmail = user.email?.toLowerCase().trim() || '';
+          const userSeconds = user.createdAt?._seconds || 0;
+
+          // 2. Define the conditions
+          const isAllowedName = allowedNames.includes(userName);
+          const isRecentUser = userSeconds >= cutoffSeconds;
+          const isNotExcludedEmail = userEmail !== excludedEmail;
+
+          // 3. Combine: (Name OR Date) AND Not the excluded email
+          return (isAllowedName || isRecentUser) && isNotExcludedEmail;
+        });
+        // this.users = res;
 
         this.loadTransactions();
       },
