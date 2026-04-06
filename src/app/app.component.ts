@@ -8,7 +8,7 @@ import { filter } from "rxjs/operators";
 })
 export class AppComponent implements OnInit {
   showNavbar: boolean = true;
-  appSuspended: boolean = false;
+  appSuspended: boolean = true;
 
   constructor(private router: Router) {}
 
